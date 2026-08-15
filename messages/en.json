@@ -43,5 +43,28 @@
       "title": "App Development",
       "subtitle": "React Native · iOS & Android"
     }
+  },
+  "Works": {
+    "badge": "Works",
+    "subtitle": "I had the pleasure of working with these awesome projects & PoCs",
+    "viewWebsite": "View Live Demo",
+    "viewGithub": "Source Code",
+    "projects": {
+      "bpartners": {
+        "title": "BPartners Mobile PoC",
+        "description": "Cross-platform mobile application designed for business partners, featuring client management and tracking workflows.",
+        "tags": ["React Native", "TypeScript", "Mobile"]
+      },
+      "speedleasing": {
+        "title": "Speed Leasing PoC",
+        "description": "Interactive leasing and financial simulation platform with real-time rate calculators and automated validation flows.",
+        "tags": ["Next.js", "TypeScript", "Fintech"]
+      },
+      "ukatis": {
+        "title": "Ukatis Pension PoC",
+        "description": "Pension fund and retirement management dashboard with projection calculations and secure data views.",
+        "tags": ["React", "Node.js", "Analytics"]
+      }
+    }
   }
 }
