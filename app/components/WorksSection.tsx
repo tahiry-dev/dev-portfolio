@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ExternalLink, Layers } from 'lucide-react';
+import { ExternalLink, Layers, ChevronLeft, ChevronRight } from 'lucide-react';
 
 function GithubIcon({ className = 'w-4 h-4' }: { className?: string }) {
   return (
@@ -20,95 +21,163 @@ function GithubIcon({ className = 'w-4 h-4' }: { className?: string }) {
   );
 }
 
-const projectMeta = [
-  {
-    key: 'speedleasing',
+const projectKeys = ['speedleasing', 'ukatis', 'bpartners'] as const;
+
+const projectMeta: Record<
+  (typeof projectKeys)[number],
+  { demoUrl: string; githubUrl: string }
+> = {
+  speedleasing: {
     demoUrl: 'https://speed-leasing-poc.vercel.app/',
     githubUrl: 'https://github.com/tahiry-dev/speed-leasing-poc',
   },
-  {
-    key: 'ukatis',
+  ukatis: {
     demoUrl: 'https://ukatis-pension-poc.vercel.app/',
     githubUrl: 'https://github.com/tahiry-dev/ukatis-pension-poc',
   },
-  {
-    key: 'bpartners',
+  bpartners: {
     demoUrl: 'https://bpartners-mobile-poc-peach.vercel.app/',
     githubUrl: 'https://github.com/tahiry-dev/bpartners-mobile-poc',
   },
-] as const;
+};
 
 export default function WorksSection() {
   const t = useTranslations('Works');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev === 0 ? projectKeys.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev === projectKeys.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <section id="works" className="py-24 px-6 max-w-6xl mx-auto">
-      {/* En-tête de section */}
-      <div className="mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-400 text-xs font-mono mb-4">
-          <Layers className="w-3.5 h-3.5" />
-          <span>{t('badge')}</span>
-        </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-100 tracking-tight">
-          {t('subtitle')}
+      {/* En-tête centré style Skills */}
+      <div className="flex flex-col items-center text-center mb-16">
+        <Layers className="w-10 h-10 text-cyan-400 mb-3" />
+        <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+          {t('badge')}
         </h2>
+        <div className="w-12 h-1 bg-cyan-400 rounded-full mt-3 mb-4"></div>
+        <p className="text-slate-400 text-sm md:text-base max-w-2xl leading-relaxed">
+          {t('subtitle')}
+        </p>
       </div>
 
-      {/* Grille des PoC */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projectMeta.map((project) => {
-          const tags: string[] = t.raw(`projects.${project.key}.tags`) || [];
+      {/* Carrousel avec défilement fluide (Slide Track) */}
+      <div className="flex items-center justify-center gap-3 md:gap-6">
+        {/* Flèche Gauche */}
+        <button
+          onClick={prevSlide}
+          aria-label="Previous project"
+          className="shrink-0 p-3.5 rounded-full border border-slate-800 bg-[#090d16]/90 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 hover:bg-cyan-950/40 hover:shadow-[0_0_15px_rgba(6,182,212,0.25)] transition-all duration-200 active:scale-95 z-10"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
 
-          return (
-            <div
-              key={project.key}
-              className="group rounded-2xl bg-[#090d16]/80 border border-cyan-500/20 p-6 flex flex-col justify-between backdrop-blur-sm transition-all duration-300 hover:border-cyan-400 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] hover:-translate-y-1.5"
-            >
-              <div>
-                <h3 className="text-xl font-semibold text-slate-100 mb-3 group-hover:text-cyan-300 transition-colors">
-                  {t(`projects.${project.key}.title`)}
-                </h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  {t(`projects.${project.key}.description`)}
-                </p>
+        {/* Fenêtre visible du Carrousel */}
+        <div className="relative flex-1 max-w-3xl overflow-hidden rounded-3xl bg-[#090d16]/90 border border-cyan-500/30 shadow-[0_0_50px_rgba(6,182,212,0.1)] backdrop-blur-md">
+          {/* Rails de glissement (Track animé) */}
+          <div
+            className="flex transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
+            {projectKeys.map((key, index) => {
+              const tags: string[] = t.raw(`projects.${key}.tags`) || [];
+              const links = projectMeta[key];
 
-                {/* Badges de tags */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs font-mono px-2.5 py-1 rounded-md bg-cyan-950/40 border border-cyan-500/20 text-cyan-400"
+              return (
+                <div
+                  key={key}
+                  className="w-full shrink-0 p-8 md:p-12 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-4 mb-6">
+                      <span className="text-xs font-mono px-3 py-1 rounded-full bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">
+                        PoC #{index + 1}
+                      </span>
+                      <span className="font-mono text-sm text-cyan-400 font-semibold tracking-wider">
+                        {`0${index + 1}`}{' '}
+                        <span className="text-slate-600">/</span>{' '}
+                        {`0${projectKeys.length}`}
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl md:text-3xl font-bold text-slate-100 mb-4 tracking-tight">
+                      {t(`projects.${key}.title`)}
+                    </h3>
+
+                    <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-8">
+                      {t(`projects.${key}.description`)}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-8">
+                      {tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs font-mono px-2.5 py-1 rounded-md bg-cyan-950/40 border border-cyan-500/20 text-cyan-400"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Actions (Demo & Code) */}
+                  <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-slate-800/80">
+                    <a
+                      href={links.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 text-slate-950 font-semibold text-sm hover:bg-cyan-400 transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:scale-105 active:scale-95"
                     >
-                      {tag}
-                    </span>
-                  ))}
+                      <ExternalLink className="w-4 h-4" />
+                      {t('viewWebsite')}
+                    </a>
+                    <a
+                      href={links.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 font-semibold text-sm hover:text-white hover:border-slate-500 transition-all active:scale-95"
+                    >
+                      <GithubIcon className="w-4 h-4" />
+                      {t('viewGithub')}
+                    </a>
+                  </div>
                 </div>
-              </div>
+              );
+            })}
+          </div>
 
-              {/* Liens Live Demo & GitHub */}
-              <div className="flex items-center gap-4 pt-4 border-t border-slate-800/80">
-                <a
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  {t('viewWebsite')}
-                </a>
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-slate-200 transition-colors"
-                >
-                  <GithubIcon className="w-4 h-4" />
-                  {t('viewGithub')}
-                </a>
-              </div>
-            </div>
-          );
-        })}
+          {/* Indicateurs (Dots) */}
+          <div className="flex items-center justify-center gap-2 pb-6">
+            {projectKeys.map((key, idx) => (
+              <button
+                key={key}
+                onClick={() => setCurrentIndex(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  idx === currentIndex
+                    ? 'w-7 bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]'
+                    : 'w-2 bg-slate-700 hover:bg-slate-500'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Flèche Droite */}
+        <button
+          onClick={nextSlide}
+          aria-label="Next project"
+          className="shrink-0 p-3.5 rounded-full border border-slate-800 bg-[#090d16]/90 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 hover:bg-cyan-950/40 hover:shadow-[0_0_15px_rgba(6,182,212,0.25)] transition-all duration-200 active:scale-95 z-10"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
       </div>
     </section>
   );

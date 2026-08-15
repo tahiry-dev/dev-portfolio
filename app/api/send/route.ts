@@ -1,49 +1,69 @@
-import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
-    const apiKey = process.env.RESEND_API_KEY || 're_8uTCYsTh_5myth71C9c9isv2U1fb8zWL4';
-    const resend = new Resend(apiKey);
+    const apiKey = process.env.RESEND_API_KEY;
 
-    const body = await req.json().catch(() => null);
-
-    if (!body || !body.name || !body.email || !body.message) {
+    if (!apiKey) {
+      console.error('Configuration Error: RESEND_API_KEY is missing');
       return NextResponse.json(
-        { error: 'Tous les champs sont requis.' },
+        { error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+
+    const body = await req.json();
+    const { name, email, message } = body;
+
+    // Validation des champs obligatoires
+    if (!name || typeof name !== 'string' || !name.trim()) {
+      return NextResponse.json(
+        { error: 'Name is required' },
         { status: 400 }
       );
     }
 
-    const { name, email, message } = body;
+    if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json(
+        { error: 'A valid email is required' },
+        { status: 400 }
+      );
+    }
+
+    if (!message || typeof message !== 'string' || !message.trim()) {
+      return NextResponse.json(
+        { error: 'Message is required' },
+        { status: 400 }
+      );
+    }
+
+    const resend = new Resend(apiKey);
 
     const { data, error } = await resend.emails.send({
       from: 'Portfolio <onboarding@resend.dev>',
       to: ['tahirycontact@gmail.com'],
-      replyTo: email,
-      subject: `Nouveau message de ${name} via le Portfolio`,
-      html: `
-        <div style="font-family: sans-serif; line-height: 1.6; color: #111;">
-          <h2>Nouveau message reçu depuis votre portfolio</h2>
-          <p><strong>Nom :</strong> ${name}</p>
-          <p><strong>Email :</strong> ${email}</p>
-          <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;" />
-          <p><strong>Message :</strong></p>
-          <p style="background: #f4f4f5; padding: 15px; border-radius: 8px; white-space: pre-wrap;">${message}</p>
-        </div>
-      `,
+      replyTo: email.trim(),
+      subject: `New Portfolio Message from ${name.trim()}`,
+      text: `Name: ${name.trim()}\nEmail: ${email.trim()}\n\nMessage:\n${message.trim()}`,
     });
 
     if (error) {
-      console.error('Resend error:', error);
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      console.error('Resend API Error:', error);
+      return NextResponse.json(
+        { error: error.message || 'Failed to send email' },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json({ success: true, data });
-  } catch (err: unknown) {
-    console.error('Server error:', err);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Erreur interne du serveur." },
+      { success: true, messageId: data?.id },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Internal Server Error:', error);
+    return NextResponse.json(
+      { error: 'An unexpected error occurred while processing your request' },
       { status: 500 }
     );
   }
