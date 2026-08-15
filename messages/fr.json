@@ -47,7 +47,7 @@
 
   "Works": {
     "badge": "Projets & PoC",
-    "subtitle": "Une sélection de projets et preuves de concept que j'ai développés",
+    "subtitle": "Preuves de concept (PoC) reconstituées à partir de projets réels, les versions originales étant soumises à la confidentialité (NDA) ou n'étant plus hébergées.",
     "viewWebsite": "Voir la démo",
     "viewGithub": "Code source",
     "projects": {

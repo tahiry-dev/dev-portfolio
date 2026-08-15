@@ -46,7 +46,7 @@
   },
   "Works": {
     "badge": "Works",
-    "subtitle": "I had the pleasure of working with these awesome projects & PoCs",
+    "subtitle": "Proof of Concepts reconstructed from real-world projects, as original client systems are either confidential (under NDA) or no longer publicly hosted.",
     "viewWebsite": "View Live Demo",
     "viewGithub": "Source Code",
     "projects": {
