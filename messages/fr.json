@@ -67,5 +67,21 @@
         "tags": ["React", "Node.js", "Analytics"]
       }
     }
+  },
+  "Contact": {
+    "badge": "Contact",
+    "subtitle": "Actuellement disponible pour des missions freelance & projets",
+    "boxTitle": "Envoyez-moi un message",
+    "nameLabel": "Votre nom *",
+    "namePlaceholder": "Entrez votre nom",
+    "emailLabel": "Votre email *",
+    "emailPlaceholder": "Entrez votre adresse email",
+    "messageLabel": "Votre message *",
+    "messagePlaceholder": "Décrivez votre projet ou vos besoins",
+    "sendButton": "Envoyer le message",
+    "sending": "Envoi en cours...",
+    "successMessage": "Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.",
+    "defaultError": "Impossible d'envoyer le message. Veuillez réessayer.",
+    "rights": "Tous droits réservés."
   }
 }

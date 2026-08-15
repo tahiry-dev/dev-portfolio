@@ -4,6 +4,8 @@ import HeroSection from '../components/HeroSection';
 import AboutSection from '../components/AboutSection';
 import SkillsSection from '../components/SkillsSection';
 import WorksSection from '../components/WorksSection';
+import ContactSection from '../components/ContactSection';
+import ScrollToTop from '../components/ScrollToTop';
 
 export default function HomePage() {
   return (
@@ -14,6 +16,8 @@ export default function HomePage() {
       <AboutSection />
       <SkillsSection />
       <WorksSection />
+      <ContactSection />
+      <ScrollToTop />
     </main>
   );
 }
