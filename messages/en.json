@@ -31,5 +31,17 @@
     "p2": "Having worked both as a Full-Stack Developer and Project Manager, I turn complex business requirements into clean, intuitive, and robust products without unnecessary technical jargon.",
     "p3": "While open to diverse industries, I hold deep hands-on expertise in financial systems: secure payment workflows (Stripe, gateways), invoicing platforms, and custom real-time dashboards.",
     "p4": "I oversee the full product lifecycle from architecture to production release, ensuring high performance, data reliability, and seamless user experiences."
+  },
+  "SkillsSection": {
+    "badge": "Skills",
+    "subtitle": "I am striving to never stop learning and improving",
+    "web": {
+      "title": "Web Development",
+      "subtitle": "React · Next.js · TypeScript"
+    },
+    "mobile": {
+      "title": "App Development",
+      "subtitle": "React Native · iOS & Android"
+    }
   }
 }

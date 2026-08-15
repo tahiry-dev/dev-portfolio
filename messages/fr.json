@@ -31,5 +31,17 @@
     "p2": "Fort d'une expérience combinant développement Full-Stack et gestion de projet, je traduis vos enjeux métier en fonctionnalités concrètes, intuitives et robustes, sans jargon technique superflu.",
     "p3": "Bien qu'ouvert à tous types de secteurs, j'ai développé une solide expertise dans les flux financiers : intégration de paiements sécurisés (Stripe, passerelles dédiées), facturation et tableaux de bord sur mesure.",
     "p4": "J'assure la maîtrise complète du cycle de vie des projets, de la première ligne de code jusqu'au déploiement et à la mise en production."
+  },
+  "SkillsSection": {
+    "badge": "Compétences",
+    "subtitle": "En constante évolution pour concevoir des solutions performantes",
+    "web": {
+      "title": "Développement Web",
+      "subtitle": "React · Next.js · TypeScript"
+    },
+    "mobile": {
+      "title": "Développement Mobile",
+      "subtitle": "React Native · iOS & Android"
+    }
   }
 }

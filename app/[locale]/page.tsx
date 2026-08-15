@@ -2,6 +2,7 @@ import Navbar from '../components/Navbar';
 import FloatingSidebar from '../components/FloatingSidebar';
 import HeroSection from '../components/HeroSection';
 import AboutSection from '../components/AboutSection';
+import SkillsSection from '../components/SkillsSection';
 
 export default function HomePage() {
   return (
@@ -10,6 +11,7 @@ export default function HomePage() {
       <FloatingSidebar />
       <HeroSection />
       <AboutSection />
+      <SkillsSection />
     </main>
   );
 }
