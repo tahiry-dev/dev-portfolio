@@ -1,0 +1,15 @@
+{
+  "Navbar": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "works": "Works",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "role": "Full-Stack Developer",
+    "headline": "Hey, I'm Tahiry",
+    "cta": "Let's Talk",
+    "downloadCv": "Download CV"
+  }
+}
