@@ -7,9 +7,29 @@
     "contact": "Contact"
   },
   "Hero": {
-    "role": "Développeur Full-Stack",
-    "headline": "Bonjour, je suis Tahiry",
+    "tagline": "Développeur",
+    "greeting": "Bonjour",
+    "intro": "Je suis",
+    "name": "Tahiry",
+    "title": "Développeur Full-Stack",
+    "description": "Je développe des solutions web complètes et sur mesure, allant de l'interface utilisateur aux services backend, avec une expérience marquée dans la Fintech.",
     "cta": "Discutons",
-    "downloadCv": "Télécharger le CV"
+    "stats": {
+      "languages": "Langages clés",
+      "tools": "Outils de dév",
+      "experience": "Projets & PoCs"
+    },
+    "card": {
+      "status": "Disponible pour missions",
+      "location": "Antananarivo / Remote"
+    }
+  },
+  "About": {
+    "badge": "À propos",
+    "greeting": "Bonjour !",
+    "p1": "Je m'appelle Tahiry. Avec plus de 4 ans d'expérience dans la création d'applications, je conçois des solutions numériques sur mesure allant d'outils de gestion sécurisés à des applications web et mobiles complètes.",
+    "p2": "Fort d'une expérience combinant développement Full-Stack et gestion de projet, je traduis vos enjeux métier en fonctionnalités concrètes, intuitives et robustes, sans jargon technique superflu.",
+    "p3": "Bien qu'ouvert à tous types de secteurs, j'ai développé une solide expertise dans les flux financiers : intégration de paiements sécurisés (Stripe, passerelles dédiées), facturation et tableaux de bord sur mesure.",
+    "p4": "J'assure la maîtrise complète du cycle de vie des projets, de la première ligne de code jusqu'au déploiement et à la mise en production."
   }
 }
