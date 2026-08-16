@@ -1,44 +1,35 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export async function POST(req: Request) {
   try {
-    const apiKey = process.env.RESEND_API_KEY;
+    const body = await req.json().catch(() => null);
 
-    if (!apiKey) {
-      console.error('Configuration Error: RESEND_API_KEY is missing');
+    if (!body) {
       return NextResponse.json(
-        { error: 'Server configuration error' },
-        { status: 500 }
+        { error: 'Invalid request payload' },
+        { status: 400 }
       );
     }
 
-    const body = await req.json();
     const { name, email, message } = body;
 
-    // Validation des champs obligatoires
-    if (!name || typeof name !== 'string' || !name.trim()) {
+    if (!name?.trim() || !email?.trim() || !message?.trim()) {
       return NextResponse.json(
-        { error: 'Name is required' },
+        { error: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
       return NextResponse.json(
-        { error: 'A valid email is required' },
+        { error: 'Invalid email address' },
         { status: 400 }
       );
     }
-
-    if (!message || typeof message !== 'string' || !message.trim()) {
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      );
-    }
-
-    const resend = new Resend(apiKey);
 
     const { data, error } = await resend.emails.send({
       from: 'Portfolio <onboarding@resend.dev>',
@@ -49,21 +40,16 @@ export async function POST(req: Request) {
     });
 
     if (error) {
-      console.error('Resend API Error:', error);
       return NextResponse.json(
-        { error: error.message || 'Failed to send email' },
+        { error: error.message || 'Failed to deliver email' },
         { status: 400 }
       );
     }
 
-    return NextResponse.json(
-      { success: true, messageId: data?.id },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true, id: data?.id }, { status: 200 });
   } catch (error) {
-    console.error('Internal Server Error:', error);
     return NextResponse.json(
-      { error: 'An unexpected error occurred while processing your request' },
+      { error: 'Internal Server Error' },
       { status: 500 }
     );
   }
